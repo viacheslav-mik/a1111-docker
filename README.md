@@ -85,9 +85,8 @@ docker run -d \
   -p 3000:3001 \
   -p 8888:8888 \
   -p 2999:2999 \
-  -e JUPYTER_PASSWORD=Jup1t3R! \
-  -e ENABLE_TENSORBOARD=1 \
-  ashleykza/stable-diffusion-webui:latest
+  -e VENV_PATH=/workspace/venvs/stable-diffusion-webui \
+  ashleykza/a1111:latest
 ```
 
 You can obviously substitute the image name and tag with your own.
@@ -102,27 +101,23 @@ You can obviously substitute the image name and tag with your own.
 
 ### Environment Variables
 
-| Variable           | Description                                  | Default  |
-|--------------------|----------------------------------------------|----------|
-| JUPYTER_PASSWORD   | Password for Jupyter Lab                     | Jup1t3R! |
-| DISABLE_AUTOLAUNCH | Disable Web UIs from launching automatically | enabled  |
-| ENABLE_TENSORBOARD | Enables Tensorboard on port 6006             | enabled  |
+| Variable           | Description                                  | Default                                 |
+|--------------------|----------------------------------------------|-----------------------------------------|
+| VENV_PATH          | Set the path for the Python venv for the app | /workspace/venvs/stable-diffusion-webui |
+| DISABLE_AUTOLAUNCH | Disable Web UIs from launching automatically | enabled                                 |
 
 ## Logs
 
-Stable Diffusion Web UI and Kohya SS both create log
-files, and you can tail the log files instead of
+Stable Diffusion Web UI creates a log file, and you can tail it instead of
 killing the services to view the logs
 
 | Application             | Log file                     |
 |-------------------------|------------------------------|
 | Stable Diffusion Web UI | /workspace/logs/webui.log    |
-| Kohya SS                | /workspace/logs/kohya_ss.log |
-| ComfyUI                 | /workspace/logs/comfyui.log  |
 
 ## Community and Contributing
 
-Pull requests and issues on [GitHub](https://github.com/ashleykleynhans/stable-diffusion-docker)
+Pull requests and issues on [GitHub](https://github.com/ashleykleynhans/a1111-docker)
 are welcome. Bug fixes and new features are encouraged.
 
 You can contact me and get help with deploying your container
