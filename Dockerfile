@@ -12,9 +12,6 @@ ENV DEBIAN_FRONTEND=noninteractive \
     PYTHONUNBUFFERED=1 \
     SHELL=/bin/bash
 
-# Create workspace working directory
-WORKDIR /
-
 # Install Ubuntu packages
 RUN apt update && \
     apt -y upgrade && \
@@ -102,9 +99,9 @@ RUN python3 -m venv --system-site-packages /venv && \
     deactivate
 
 # Install the dependencies for the Automatic1111 Stable Diffusion Web UI
-COPY a1111/requirements.txt a1111/requirements_versions.txt ./
 COPY a1111/cache-sd-model.py a1111/install-automatic.py ./
 RUN source /venv/bin/activate && \
+    pip3 install -r requirements_versions.txt && \
     python3 -m install-automatic --skip-torch-cuda-test && \
     deactivate
 
@@ -214,6 +211,8 @@ ENV TEMPLATE_VERSION=1.8.0
 
 # Set the main venv path
 ENV VENV_PATH="/workspace/venvs/stable-diffusion-webui"
+
+RUN sed -i "s|venv_dir=VENV_PATH|venv_dir=${VENV_PATH}\"\"|" /stable-diffusion-webui/webui-user.sb
 
 # Copy the scripts
 WORKDIR /
