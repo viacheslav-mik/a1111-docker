@@ -39,7 +39,7 @@
 
 This image is designed to work on [RunPod](https://runpod.io?ref=2xxro4sy).
 You can use my custom [RunPod template](
-https://runpod.io/gsc?template=ya6013lj5a&ref=2xxro4sy)
+https://runpod.io/console/gpu-cloud?template=ts8ze6urzh&ref=2xxro4sy)
 to launch it on RunPod.
 
 ## Building the Docker image

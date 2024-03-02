@@ -25,34 +25,13 @@ sync_apps() {
     rsync --remove-source-files -rlptDu /${APP}/ /workspace/${APP}/
     rm -rf /stable-diffusion-webui
 
-    # Sync Kohya_ss to workspace to support Network volumes
-    echo "Syncing Kohya_ss to workspace, please wait..."
-    rsync --remove-source-files -rlptDu /kohya_ss/ /workspace/kohya_ss/
-    rm -rf /kohya_ss
-
-    # Sync ComfyUI to workspace to support Network volumes
-    echo "Syncing ComfyUI to workspace, please wait..."
-    rsync --remove-source-files -rlptDu /ComfyUI/ /workspace/ComfyUI/
-    rm -rf /ComfyUI
-
-    # Sync Application Manager to workspace to support Network volumes
-    echo "Syncing Application Manager to workspace, please wait..."
-    rsync --remove-source-files -rlptDu /app-manager/ /workspace/app-manager/
-    rm -rf /app-manager
-
     echo "${TEMPLATE_VERSION}" > ${DOCKER_IMAGE_VERSION_FILE}
     echo "${VENV_PATH}" > "/workspace/${APP}/venv_path"
 }
 
 fix_venvs() {
     echo "Fixing Stable Diffusion Web UI venv..."
-    /fix_venv.sh /venv ${VENV_PATH}
-
-    echo "Fixing Kohya_ss venv..."
-    /fix_venv.sh /kohya_ss/venv /workspace/kohya_ss/venv
-
-    echo "Fixing ComfyUI venv..."
-    /fix_venv.sh /ComfyUI/venv /workspace/ComfyUI/venv
+    /fix_venv.sh /venv ${VENV_PATH}    /fix_venv.sh /ComfyUI/venv /workspace/ComfyUI/venv
 }
 
 link_models() {
@@ -102,23 +81,8 @@ then
     echo "   Stable Diffusion Web UI:"
     echo "   ---------------------------------------------"
     echo "   /start_a1111.sh"
-    echo ""
-    echo "   Kohya_ss"
-    echo "   ---------------------------------------------"
-    echo "   /start_kohya.sh"
-    echo ""
-    echo "   ComfyUI"
-    echo "   ---------------------------------------------"
-    echo "   /start_comfyui.sh"
 else
     /start_a1111.sh
-    /start_kohya.sh
-    /start_comfyui.sh
-fi
-
-if [ ${ENABLE_TENSORBOARD} ];
-then
-    /start_tensorboard.sh
 fi
 
 echo "All services have been started"
