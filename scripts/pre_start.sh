@@ -55,6 +55,9 @@ if [ "$(printf '%s\n' "$EXISTING_VERSION" "$TEMPLATE_VERSION" | sort -V | head -
         fix_venvs
         link_models
 
+        # Add VENV_PATH to webui-user.sh
+        sed -i "s|venv_dir=VENV_PATH|venv_dir=${VENV_PATH}\"\"|" /workspace/stable-diffusion-webui/webui-user.sh
+
         # Create logs directory
         mkdir -p /workspace/logs
     else

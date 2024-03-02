@@ -212,8 +212,6 @@ ENV TEMPLATE_VERSION=1.8.0
 # Set the main venv path
 ENV VENV_PATH="/workspace/venvs/stable-diffusion-webui"
 
-RUN sed -i "s|venv_dir=VENV_PATH|venv_dir=${VENV_PATH}\"\"|" /stable-diffusion-webui/webui-user.sh
-
 # Copy the scripts
 WORKDIR /
 COPY --chmod=755 scripts/* ./
