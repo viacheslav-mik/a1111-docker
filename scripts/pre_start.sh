@@ -31,7 +31,7 @@ sync_apps() {
 
 fix_venvs() {
     echo "Fixing Stable Diffusion Web UI venv..."
-    /fix_venv.sh /venv ${VENV_PATH}    /fix_venv.sh /ComfyUI/venv /workspace/ComfyUI/venv
+    /fix_venv.sh /venv ${VENV_PATH}
 }
 
 link_models() {
@@ -66,10 +66,6 @@ if [ "$(printf '%s\n' "$EXISTING_VERSION" "$TEMPLATE_VERSION" | sort -V | head -
 else
     echo "Existing version is newer than the template version, not syncing!"
 fi
-
-# Start application manager
-cd /workspace/app-manager
-npm start > /workspace/logs/app-manager.log 2>&1 &
 
 if [[ ${DISABLE_AUTOLAUNCH} ]]
 then
