@@ -50,6 +50,7 @@ RUN apt update && \
         htop \
         screen \
         tmux \
+        bc \
         pkg-config \
         plocate \
         libcairo2-dev \
@@ -113,8 +114,9 @@ RUN source /venv/bin/activate && \
     deactivate
 
 # Clone the Automatic1111 Extensions
-RUN git clone --depth=1 https://github.com/deforum-art/sd-webui-deforum.git extensions/deforum && \
-    git clone --depth=1 https://github.com/Mikubill/sd-webui-controlnet.git extensions/sd-webui-controlnet && \
+# Deforum not currently working with A1111 v1.8.0
+#RUN git clone --depth=1 https://github.com/deforum-art/sd-webui-deforum.git extensions/deforum && \
+RUN git clone --depth=1 https://github.com/Mikubill/sd-webui-controlnet.git extensions/sd-webui-controlnet && \
     git clone --depth=1 https://github.com/ashleykleynhans/a1111-sd-webui-locon.git extensions/a1111-sd-webui-locon && \
     git clone --depth=1 https://github.com/Gourieff/sd-webui-reactor.git extensions/sd-webui-reactor && \
     git clone --depth=1 https://github.com/zanllp/sd-webui-infinite-image-browsing.git extensions/infinite-image-browsing && \
@@ -125,9 +127,10 @@ RUN git clone --depth=1 https://github.com/deforum-art/sd-webui-deforum.git exte
 
 # Install dependencies for Deforum, ControlNet, ReActor, Infinite Image Browsing,
 # After Detailer, and CivitAI Browser+ extensions
+# Deforum not currenlty working
+#    cd /stable-diffusion-webui/extensions/deforum && \
+#    pip3 install -r requirements.txt && \
 RUN source /venv/bin/activate && \
-    cd /stable-diffusion-webui/extensions/deforum && \
-    pip3 install -r requirements.txt && \
     cd /stable-diffusion-webui/extensions/sd-webui-controlnet && \
     pip3 install -r requirements.txt && \
     cd /stable-diffusion-webui/extensions/sd-webui-reactor && \
@@ -137,6 +140,7 @@ RUN source /venv/bin/activate && \
     pip3 install -r requirements.txt && \
     cd /stable-diffusion-webui/extensions/adetailer && \
     python3 -m install && \
+    pip3 install basicsr &&  \
     cd /stable-diffusion-webui/extensions/sd_civitai_extension && \
     pip3 install -r requirements.txt && \
     deactivate
