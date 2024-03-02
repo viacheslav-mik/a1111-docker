@@ -10,8 +10,6 @@
 * Jupyter Lab
 * [Automatic1111 Stable Diffusion Web UI](
   https://github.com/AUTOMATIC1111/stable-diffusion-webui) 1.8.0
-* [Deforum extension](
-  https://github.com/deforum-art/sd-webui-deforum)
 * [ControlNet extension](
   https://github.com/Mikubill/sd-webui-controlnet) v1.1.441
 * [After Detailer extension](
