@@ -13,9 +13,9 @@
 * [Deforum extension](
   https://github.com/deforum-art/sd-webui-deforum)
 * [ControlNet extension](
-  https://github.com/Mikubill/sd-webui-controlnet) v1.1.440
+  https://github.com/Mikubill/sd-webui-controlnet) v1.1.441
 * [After Detailer extension](
-  https://github.com/Bing-su/adetailer) v24.1.2
+  https://github.com/Bing-su/adetailer) v24.3.0
 * [ReActor extension](https://github.com/Gourieff/sd-webui-reactor) (replaces roop)
 * [Inpaint Anything extension](https://github.com/Uminosachi/sd-webui-inpaint-anything)
 * [Infinite Image Browsing extension](https://github.com/zanllp/sd-webui-infinite-image-browsing)
