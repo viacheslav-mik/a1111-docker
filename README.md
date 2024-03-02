@@ -51,7 +51,7 @@ than 32GB of system memory, you can comment out or remove the code in the
 
 ```bash
 # Clone the repo
-git clone https://github.com/ashleykleynhans/stable-diffusion-docker.git
+git clone https://github.com/ashleykleynhans/a1111-docker.git
 
 # Download the models
 cd stable-diffusion-docker
