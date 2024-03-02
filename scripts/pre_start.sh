@@ -55,11 +55,6 @@ if [ "$(printf '%s\n' "$EXISTING_VERSION" "$TEMPLATE_VERSION" | sort -V | head -
         fix_venvs
         link_models
 
-        # Configure accelerate
-        echo "Configuring accelerate..."
-        mkdir -p /root/.cache/huggingface/accelerate
-        mv /accelerate.yaml /root/.cache/huggingface/accelerate/default_config.yaml
-
         # Create logs directory
         mkdir -p /workspace/logs
     else
