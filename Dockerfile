@@ -131,7 +131,7 @@ RUN source /venv/bin/activate && \
     cd /stable-diffusion-webui/extensions/sd-webui-controlnet && \
     pip3 install -r requirements.txt && \
     cd /stable-diffusion-webui/extensions/deforum && \
-    pip3 install -r requirements.txt \
+    pip3 install -r requirements.txt && \
     cd /stable-diffusion-webui/extensions/sd-webui-reactor && \
     pip3 install -r requirements.txt && \
     pip3 install onnxruntime-gpu && \
