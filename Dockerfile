@@ -1,9 +1,9 @@
 # Stage 1: Base
-FROM nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04 as base
+FROM nvidia/cuda:12.1.1-cudnn8-devel-ubuntu22.04 as base
 
-ARG TORCH_VERSION=2.0.1
-ARG INDEX_URL="https://download.pytorch.org/whl/cu118"
-ARG XFORMERS_VERSION=0.0.22
+ARG TORCH_VERSION=2.1.2
+ARG INDEX_URL="https://download.pytorch.org/whl/cu121"
+ARG XFORMERS_VERSION=0.0.23.post1
 ARG WEBUI_VERSION=v1.8.0
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
