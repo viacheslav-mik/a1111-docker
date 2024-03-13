@@ -53,19 +53,16 @@ than 32GB of system memory, you can comment out or remove the code in the
 git clone https://github.com/ashleykleynhans/a1111-docker.git
 
 # Download the models
-cd stable-diffusion-docker
+cd a1111-docker
 wget https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors
 wget https://huggingface.co/stabilityai/stable-diffusion-xl-refiner-1.0/resolve/main/sd_xl_refiner_1.0.safetensors
 wget https://huggingface.co/madebyollin/sdxl-vae-fp16-fix/resolve/main/sdxl_vae.safetensors
 
-# Build and tag the image
-docker build -t username/image-name:1.0.0 .
-
 # Log in to Docker Hub
 docker login
 
-# Push the image to Docker Hub
-docker push username/image-name:1.0.0
+# Build the image, tag the image, and push the image to Docker Hub
+docker buildx bake -f docker-bake.hcl --push
 ```
 
 ## Running Locally
