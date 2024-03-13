@@ -1,10 +1,5 @@
 # Stage 1: Base
-FROM nvidia/cuda:12.1.1-cudnn8-devel-ubuntu22.04 as base
-
-ARG TORCH_VERSION=2.1.2
-ARG INDEX_URL="https://download.pytorch.org/whl/cu121"
-ARG XFORMERS_VERSION=0.0.23.post1
-ARG WEBUI_VERSION=v1.8.0
+FROM nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04 as base
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ENV DEBIAN_FRONTEND=noninteractive \
@@ -67,6 +62,10 @@ RUN apt update && \
 RUN ln -s /usr/bin/python3.10 /usr/bin/python
 
 # Install Torch, xformers and tensorrt
+ARG INDEX_URL
+ARG TORCH_VERSION
+ARG XFORMERS_VERSION
+
 RUN pip3 install --no-cache-dir torch==${TORCH_VERSION} torchvision torchaudio --index-url ${INDEX_URL} && \
     pip3 install --no-cache-dir xformers==${XFORMERS_VERSION} tensorrt
 
@@ -87,6 +86,7 @@ COPY sdxl_vae.safetensors /sd-models/sdxl_vae.safetensors
 # Clone the git repo of the Stable Diffusion Web UI by Automatic1111
 # and set version
 WORKDIR /
+ARG WEBUI_VERSION
 RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git && \
     cd /stable-diffusion-webui && \
     git checkout tags/${WEBUI_VERSION}
@@ -179,7 +179,7 @@ RUN curl -sSL https://github.com/kodxana/RunPod-FilleUploader/raw/main/scripts/i
 RUN curl https://rclone.org/install.sh | bash
 
 # Install runpodctl
-ARG RUNPODCTL_VERSION="v1.14.2"
+ARG RUNPODCTL_VERSION
 RUN wget "https://github.com/runpod/runpodctl/releases/download/${RUNPODCTL_VERSION}/runpodctl-linux-amd64" -O runpodctl && \
     chmod a+x runpodctl && \
     mv runpodctl /usr/local/bin
@@ -210,10 +210,12 @@ COPY nginx/nginx.conf /etc/nginx/nginx.conf
 COPY nginx/502.html /usr/share/nginx/html/502.html
 
 # Set template version
-ENV TEMPLATE_VERSION=1.8.0
+ARG RELEASE
+ENV TEMPLATE_VERSION=${RELEASE}
 
-# Set the main venv path
-ENV VENV_PATH="/workspace/venvs/stable-diffusion-webui"
+# Set the venv path
+ARG VENV_PATH
+ENV VENV_PATH=${VENV_PATH}
 
 # Copy the scripts
 WORKDIR /
