@@ -126,9 +126,11 @@ RUN git clone --depth=1 https://github.com/Mikubill/sd-webui-controlnet.git exte
 
 # Install dependencies for Deforum, ControlNet, ReActor, Infinite Image Browsing,
 # After Detailer, and CivitAI Browser+ extensions
+ARG CONTROLNET_COMMIT
 RUN source /venv/bin/activate && \
     pip3 install basicsr &&  \
     cd /stable-diffusion-webui/extensions/sd-webui-controlnet && \
+    git checkout ${CONTROLNET_COMMIT} && \
     pip3 install -r requirements.txt && \
     cd /stable-diffusion-webui/extensions/deforum && \
     pip3 install -r requirements.txt && \
