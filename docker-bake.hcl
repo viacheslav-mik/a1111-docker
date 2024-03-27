@@ -25,6 +25,7 @@ target "default" {
         CONTROLNET_COMMIT = "2a210f0489a4484f55088159bbfa51aaf73e10d9"
         WEBUI_VERSION = "v1.8.0"
         RUNPODCTL_VERSION = "v1.14.2"
+        CIVITAI_DOWNLOADER_VERSION = "2.0.1"
         VENV_PATH = "/workspace/venvs/stable-diffusion-webui"
     }
 }
