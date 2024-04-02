@@ -18,7 +18,7 @@
 * [Automatic1111 Stable Diffusion Web UI](
   https://github.com/AUTOMATIC1111/stable-diffusion-webui) 1.8.0
 * [ControlNet extension](
-  https://github.com/Mikubill/sd-webui-controlnet) v1.1.442
+  https://github.com/Mikubill/sd-webui-controlnet) v1.1.443
 * [After Detailer extension](
   https://github.com/Bing-su/adetailer) v24.3.0
 * [ReActor extension](https://github.com/Gourieff/sd-webui-reactor) (replaces roop)
