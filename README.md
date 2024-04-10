@@ -40,6 +40,7 @@
 * [RunPod File Uploader](https://github.com/kodxana/RunPod-FilleUploader)
 * [croc](https://github.com/schollz/croc)
 * [rclone](https://rclone.org/)
+* [Application Manager](https://github.com/ashleykleynhans/app-manager)
 * [CivitAI Downloader](https://github.com/ashleykleynhans/civitai-downloader)
 
 ## Available on RunPod
@@ -93,6 +94,7 @@ docker run -d \
   --gpus all \
   -v /workspace \
   -p 3000:3001 \
+  -p 8000:8000 \
   -p 8888:8888 \
   -p 2999:2999 \
   -e VENV_PATH=/workspace/venvs/stable-diffusion-webui \
@@ -106,6 +108,7 @@ You can obviously substitute the image name and tag with your own.
 | Connect Port | Internal Port | Description                   |
 |--------------|---------------|-------------------------------|
 | 3000         | 3001          | A1111 Stable Diffusion Web UI |
+| 8000         | 8000          | Application Manager           |
 | 8888         | 8888          | Jupyter Lab                   |
 | 2999         | 2999          | RunPod File Uploader          |
 

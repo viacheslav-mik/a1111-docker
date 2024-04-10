@@ -164,6 +164,13 @@ RUN mkdir -p /stable-diffusion-webui/models/insightface && \
 # Configure ReActor to use the GPU instead of the CPU
 RUN echo "CUDA" > /stable-diffusion-webui/extensions/sd-webui-reactor/last_device.txt
 
+# Install Application Manager
+WORKDIR /
+RUN git clone https://github.com/ashleykleynhans/app-manager.git /app-manager && \
+    cd /app-manager && \
+    npm install
+COPY app-manager/config.json /app-manager/public/config.json
+
 # Install Jupyter, gdown and OhMyRunPod
 RUN pip3 install -U --no-cache-dir jupyterlab \
         jupyterlab_widgets \

@@ -25,6 +25,11 @@ sync_apps() {
     rsync --remove-source-files -rlptDu /${APP}/ /workspace/${APP}/
     rm -rf /stable-diffusion-webui
 
+    # Sync Application Manager to workspace to support Network volumes
+    echo "Syncing Application Manager to workspace, please wait..."
+    rsync --remove-source-files -rlptDu /app-manager/ /workspace/app-manager/
+    rm -rf /app-manager
+
     echo "${TEMPLATE_VERSION}" > ${DOCKER_IMAGE_VERSION_FILE}
     echo "${VENV_PATH}" > "/workspace/${APP}/venv_path"
 }
@@ -66,6 +71,10 @@ if [ "$(printf '%s\n' "$EXISTING_VERSION" "$TEMPLATE_VERSION" | sort -V | head -
 else
     echo "Existing version is newer than the template version, not syncing!"
 fi
+
+# Start application manager
+cd /workspace/app-manager
+npm start > /workspace/logs/app-manager.log 2>&1 &
 
 if [[ ${DISABLE_AUTOLAUNCH} ]]
 then
