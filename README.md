@@ -78,6 +78,10 @@ docker login
 
 # Build the image, tag the image, and push the image to Docker Hub
 docker buildx bake -f docker-bake.hcl --push
+
+# Same as above but customize registry/user/release:
+REGISTRY=ghcr.io REGISTRY_USER=myuser RELEASE=my-release docker buildx \
+    bake -f docker-bake.hcl --push
 ```
 
 ## Running Locally
