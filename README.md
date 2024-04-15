@@ -53,7 +53,7 @@ to launch it on RunPod.
 ## Building the Docker image
 
 > [!NOTE]
-> You will need to edit the `docker-bake.hcl` file and update `USERNAME`,
+> You will need to edit the `docker-bake.hcl` file and update `REGISTRY_USER`,
 > and `RELEASE`.  You can obviously edit the other values too, but these
 > are the most important ones.
 
