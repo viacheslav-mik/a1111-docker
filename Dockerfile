@@ -54,7 +54,8 @@ RUN git clone https://github.com/Mikubill/sd-webui-controlnet.git extensions/sd-
     git clone --depth=1 https://github.com/Uminosachi/sd-webui-inpaint-anything.git extensions/inpaint-anything && \
     git clone --depth=1 https://github.com/Bing-su/adetailer.git extensions/adetailer && \
     git clone --depth=1 https://github.com/civitai/sd_civitai_extension.git extensions/sd_civitai_extension && \
-    git clone https://github.com/BlafKing/sd-civitai-browser-plus.git extensions/sd-civitai-browser-plus
+    git clone https://github.com/BlafKing/sd-civitai-browser-plus.git extensions/sd-civitai-browser-plus && \
+    git clone https://github.com/NVIDIA/Stable-Diffusion-WebUI-TensorRT.git extensions/Stable-Diffusion-WebUI-TensorRT
 
 # Install dependencies for Deforum, ControlNet, ReActor, Infinite Image Browsing,
 # After Detailer, and CivitAI Browser+ extensions
@@ -75,6 +76,8 @@ RUN source /venv/bin/activate && \
     python3 -m install && \
     cd /stable-diffusion-webui/extensions/sd_civitai_extension && \
     pip3 install -r requirements.txt && \
+    cd /stable-diffusion-webui/extensions/Stable-Diffusion-WebUI-TensorRT && \
+    python3 -m install && \
     deactivate
 
 # Install dependencies for inpaint anything extension
