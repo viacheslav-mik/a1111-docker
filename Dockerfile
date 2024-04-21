@@ -98,6 +98,7 @@ RUN source /venv/bin/activate && \
     pip3 install --no-cache-dir --pre --extra-index-url https://pypi.nvidia.com tensorrt==9.0.1.post11.dev4 && \
     pip3 uninstall -y nvidia-cudnn-cu11 && \
     pip3 install protobuf==3.20.2 && \
+    pip3 install polygraphy --extra-index-url https://pypi.ngc.nvidia.com && \
     pip3 install onnx-graphsurgeon --extra-index-url https://pypi.ngc.nvidia.com && \
     pip3 install install optimum && \
     deactivate
