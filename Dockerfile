@@ -76,8 +76,6 @@ RUN source /venv/bin/activate && \
     python3 -m install && \
     cd /stable-diffusion-webui/extensions/sd_civitai_extension && \
     pip3 install -r requirements.txt && \
-    cd /stable-diffusion-webui/extensions/Stable-Diffusion-WebUI-TensorRT && \
-    python3 -m install && \
     deactivate
 
 # Install dependencies for inpaint anything extension
@@ -89,6 +87,19 @@ RUN source /venv/bin/activate && \
 RUN source /venv/bin/activate && \
     cd /stable-diffusion-webui/extensions/sd-civitai-browser-plus && \
     pip3 install send2trash beautifulsoup4 ZipUnicode fake-useragent packaging pysocks && \
+    deactivate
+
+# Install dependencies for TensorRT extension \
+RUN source /venv/bin/activate && \
+    cd /stable-diffusion-webui/extensions/Stable-Diffusion-WebUI-TensorRT && \
+    pip3 install importlib_metadata && \
+    pip3 uninstall -y tensorrt && \
+    pip3 install --no-cache-dir nvidia-cudnn-cu11==8.9.4.25 && \
+    pip3 install --no-cache-dir --pre --extra-index-url https://pypi.nvidia.com tensorrt==9.0.1.post11.dev4 && \
+    pip3 uninstall -y nvidia-cudnn-cu11 && \
+    pip3 install protobuf==3.20.2 && \
+    pip3 install onnx-graphsurgeon --extra-index-url https://pypi.ngc.nvidia.com && \
+    pip3 install install optimum && \
     deactivate
 
 # Add inswapper model for the ReActor extension
