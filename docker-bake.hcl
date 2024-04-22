@@ -11,7 +11,7 @@ variable "APP" {
 }
 
 variable "RELEASE" {
-    default = "1.9.0"
+    default = "1.9.1"
 }
 
 variable "CU_VERSION" {
@@ -43,7 +43,7 @@ target "default" {
         INDEX_URL = "https://download.pytorch.org/whl/cu${CU_VERSION}"
         TORCH_VERSION = "${TORCH_VERSION}+cu${CU_VERSION}"
         XFORMERS_VERSION = "0.0.23.post1+cu${CU_VERSION}"
-        WEBUI_VERSION = "v1.9.0"
+        WEBUI_VERSION = "v${RELEASE}"
         CONTROLNET_COMMIT = "59d5998823daabd73d6339b3d21c9cdda27b0286"
         CIVITAI_BROWSER_PLUS_VERSION = "v3.5.4"
         APP_MANAGER_VERSION = "1.0.2"
