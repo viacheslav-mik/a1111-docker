@@ -16,7 +16,7 @@
 * xformers 0.0.23.post1
 * Jupyter Lab
 * [Automatic1111 Stable Diffusion Web UI](
-  https://github.com/AUTOMATIC1111/stable-diffusion-webui) 1.9.2
+  https://github.com/AUTOMATIC1111/stable-diffusion-webui) 1.9.3
 * [ControlNet extension](
   https://github.com/Mikubill/sd-webui-controlnet) v1.1.445
 * [After Detailer extension](
