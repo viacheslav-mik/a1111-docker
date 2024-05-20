@@ -15,7 +15,7 @@ variable "RELEASE" {
 }
 
 variable "CU_VERSION" {
-    default = "118"
+    default = "121"
 }
 
 variable "BASE_IMAGE_REPOSITORY" {
