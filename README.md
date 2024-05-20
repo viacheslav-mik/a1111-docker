@@ -10,18 +10,18 @@
 ## Installs
 
 * Ubuntu 22.04 LTS
-* CUDA 11.8
+* CUDA 12.1
 * Python 3.10.12
-* Torch 2.1.2
-* xformers 0.0.23.post1
+* Torch 2.3.0
+* xformers 0.0.26.post1
 * Jupyter Lab
 * [Automatic1111 Stable Diffusion Web UI](
   https://github.com/AUTOMATIC1111/stable-diffusion-webui) 1.9.3
 * [ControlNet extension](
-  https://github.com/Mikubill/sd-webui-controlnet) v1.1.445
+  https://github.com/Mikubill/sd-webui-controlnet) v1.1.449
 * [After Detailer extension](
   https://github.com/Bing-su/adetailer) v24.4.2
-* [ReActor extension](https://github.com/Gourieff/sd-webui-reactor) (replaces roop)
+* [ReActor extension](https://github.com/Gourieff/sd-webui-reactor)
 * [Deforum extension](https://github.com/deforum-art/sd-webui-deforum)
 * [Inpaint Anything extension](https://github.com/Uminosachi/sd-webui-inpaint-anything)
 * [Infinite Image Browsing extension](https://github.com/zanllp/sd-webui-infinite-image-browsing)
