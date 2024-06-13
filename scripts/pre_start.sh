@@ -14,24 +14,25 @@ else
 fi
 
 sync_apps() {
-    # Sync main venv to workspace to support Network volumes
-    echo "Syncing main venv to workspace, please wait..."
-    mkdir -p ${VENV_PATH}
-    rsync --remove-source-files -rlptDu /venv/ ${VENV_PATH}/
-    rm -rf /venv
+    # Only sync if the DISABLE_SYNC environment variable is not set
+    if [ -z "${DISABLE_SYNC}" ]; then
+        # Sync main venv to workspace to support Network volumes
+        echo "Syncing main venv to workspace, please wait..."
+        mkdir -p ${VENV_PATH}
+        mv /venv/* ${VENV_PATH}/
+        rm -rf /venv
 
-    # Sync application to workspace to support Network volumes
-    echo "Syncing ${APP} to workspace, please wait..."
-    rsync --remove-source-files -rlptDu /${APP}/ /workspace/${APP}/
-    rm -rf /stable-diffusion-webui
+        # Sync application to workspace to support Network volumes
+        echo "Syncing ${APP} to workspace, please wait..."
+        mv /${APP} /workspace/${APP}
 
-    # Sync Application Manager to workspace to support Network volumes
-    echo "Syncing Application Manager to workspace, please wait..."
-    rsync --remove-source-files -rlptDu /app-manager/ /workspace/app-manager/
-    rm -rf /app-manager
+        # Sync Application Manager to workspace to support Network volumes
+        echo "Syncing Application Manager to workspace, please wait..."
+        mv /app-manager /workspace/app-manager
 
-    echo "${TEMPLATE_VERSION}" > ${DOCKER_IMAGE_VERSION_FILE}
-    echo "${VENV_PATH}" > "/workspace/${APP}/venv_path"
+        echo "${TEMPLATE_VERSION}" > ${DOCKER_IMAGE_VERSION_FILE}
+        echo "${VENV_PATH}" > "/workspace/${APP}/venv_path"
+    fi
 }
 
 fix_venvs() {
