@@ -28,6 +28,7 @@ RUN /install.sh
 
 # Cache the Stable Diffusion Models
 # SDXL models result in OOM kills with 8GB system memory, need 30GB+ to cache these
+WORKDIR /stable-diffusion-webui
 COPY a1111/cache-sd-model.py ./
 RUN source /venv/bin/activate && \
     python3 cache-sd-model.py --no-half-vae --no-half --xformers --use-cpu=all --ckpt /sd-models/sd_xl_base_1.0.safetensors && \
@@ -35,8 +36,8 @@ RUN source /venv/bin/activate && \
     deactivate
 
 # Install Application Manager
-ARG APP_MANAGER_VERSION
 WORKDIR /
+ARG APP_MANAGER_VERSION
 RUN git clone https://github.com/ashleykleynhans/app-manager.git /app-manager && \
     cd /app-manager && \
     git checkout tags/${APP_MANAGER_VERSION} && \
