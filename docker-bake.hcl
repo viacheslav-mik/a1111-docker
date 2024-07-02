@@ -23,7 +23,7 @@ variable "BASE_IMAGE_REPOSITORY" {
 }
 
 variable "BASE_IMAGE_VERSION" {
-    default = "1.6.0"
+    default = "1.7.0"
 }
 
 variable "CUDA_VERSION" {
@@ -36,7 +36,7 @@ variable "TORCH_VERSION" {
 
 target "default" {
     dockerfile = "Dockerfile"
-    tags = ["${REGISTRY}/${REGISTRY_USER}/${APP}:${RELEASE}"]
+    tags = ["${REGISTRY}/${REGISTRY_USER}/${APP}:${RELEASE}.post1"]
     args = {
         RELEASE = "${RELEASE}"
         BASE_IMAGE = "${BASE_IMAGE_REPOSITORY}:${BASE_IMAGE_VERSION}-cuda${CUDA_VERSION}-torch${TORCH_VERSION}"
@@ -44,9 +44,9 @@ target "default" {
         TORCH_VERSION = "${TORCH_VERSION}+cu${CU_VERSION}"
         XFORMERS_VERSION = "0.0.26.post1"
         WEBUI_VERSION = "v${RELEASE}"
-        CONTROLNET_COMMIT = "59c43499ea6121aea2e49efd6394975d430e936e"
+        CONTROLNET_COMMIT = "60ed157479430d390db438ef30e07a431f09bae0"
         CIVITAI_BROWSER_PLUS_VERSION = "v3.5.4"
-        APP_MANAGER_VERSION = "1.0.2"
+        APP_MANAGER_VERSION = "1.1.0"
         CIVITAI_DOWNLOADER_VERSION = "2.1.0"
         VENV_PATH = "/workspace/venvs/stable-diffusion-webui"
     }

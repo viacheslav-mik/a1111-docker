@@ -14,7 +14,8 @@
 * Python 3.10.12
 * Torch 2.3.0
 * xformers 0.0.26.post1
-* Jupyter Lab
+* [Jupyter Lab](https://github.com/jupyterlab/jupyterlab)
+* [code-server](https://github.com/coder/code-server)
 * [Automatic1111 Stable Diffusion Web UI](
   https://github.com/AUTOMATIC1111/stable-diffusion-webui) 1.9.4
 * [ControlNet extension](
@@ -100,6 +101,7 @@ docker run -d \
   --gpus all \
   -v /workspace \
   -p 3000:3001 \
+  -p 7777:7777 \
   -p 8000:8000 \
   -p 8888:8888 \
   -p 2999:2999 \
@@ -114,6 +116,7 @@ You can obviously substitute the image name and tag with your own.
 | Connect Port | Internal Port | Description                   |
 |--------------|---------------|-------------------------------|
 | 3000         | 3001          | A1111 Stable Diffusion Web UI |
+| 7777         | 7777          | Code Server                   |
 | 8000         | 8000          | Application Manager           |
 | 8888         | 8888          | Jupyter Lab                   |
 | 2999         | 2999          | RunPod File Uploader          |
