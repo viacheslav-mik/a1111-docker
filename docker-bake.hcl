@@ -36,7 +36,7 @@ variable "TORCH_VERSION" {
 
 target "default" {
     dockerfile = "Dockerfile"
-    tags = ["${REGISTRY}/${REGISTRY_USER}/${APP}:${RELEASE}.post1"]
+    tags = ["${REGISTRY}/${REGISTRY_USER}/${APP}:${RELEASE}.post2"]
     args = {
         RELEASE = "${RELEASE}"
         BASE_IMAGE = "${BASE_IMAGE_REPOSITORY}:${BASE_IMAGE_VERSION}-cuda${CUDA_VERSION}-torch${TORCH_VERSION}"
@@ -44,7 +44,7 @@ target "default" {
         TORCH_VERSION = "${TORCH_VERSION}+cu${CU_VERSION}"
         XFORMERS_VERSION = "0.0.26.post1"
         WEBUI_VERSION = "v${RELEASE}"
-        CONTROLNET_COMMIT = "60ed157479430d390db438ef30e07a431f09bae0"
+        CONTROLNET_COMMIT = "ee96dc9229e454b8add38c0ca99a92efa97ef238"
         CIVITAI_BROWSER_PLUS_VERSION = "v3.5.4"
         APP_MANAGER_VERSION = "1.1.0"
         CIVITAI_DOWNLOADER_VERSION = "2.1.0"
