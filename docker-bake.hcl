@@ -46,7 +46,7 @@ target "default" {
         WEBUI_VERSION = "v${RELEASE}"
         CONTROLNET_COMMIT = "ee96dc9229e454b8add38c0ca99a92efa97ef238"
         CIVITAI_BROWSER_PLUS_VERSION = "v3.5.4"
-        APP_MANAGER_VERSION = "1.2.0"
+        APP_MANAGER_VERSION = "1.2.1"
         CIVITAI_DOWNLOADER_VERSION = "2.1.0"
         VENV_PATH = "/workspace/venvs/stable-diffusion-webui"
     }
