@@ -11,7 +11,7 @@ variable "APP" {
 }
 
 variable "RELEASE" {
-    default = "1.9.4"
+    default = "1.10.0"
 }
 
 variable "CU_VERSION" {
@@ -40,7 +40,7 @@ variable "PYTHON_VERSION" {
 
 target "default" {
     dockerfile = "Dockerfile"
-    tags = ["${REGISTRY}/${REGISTRY_USER}/${APP}:${RELEASE}.post8"]
+    tags = ["${REGISTRY}/${REGISTRY_USER}/${APP}:${RELEASE}"]
     args = {
         RELEASE = "${RELEASE}"
         BASE_IMAGE = "${BASE_IMAGE_REPOSITORY}:${BASE_IMAGE_VERSION}-python${PYTHON_VERSION}-cuda${CUDA_VERSION}-torch${TORCH_VERSION}"
