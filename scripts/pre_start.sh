@@ -25,8 +25,14 @@ sync_directory() {
     # Get total size of source directory
     local total_size=$(du -sb "$src_dir" | cut -f1)
 
-    # Use tar with pv to show progress
-    tar -cf - -C "$src_dir" . | pv -s $total_size | tar -xf - -C "$dst_dir"
+    # Use parallel tar with fast compression and exclusions
+    tar --use-compress-program="pigz -p 4" \
+        --exclude='*.pyc' \
+        --exclude='__pycache__' \
+        --exclude='*.log' \
+        -cf - -C "$src_dir" . | \
+    pv -s $total_size | \
+    tar --use-compress-program="pigz -p 4" -xf - -C "$dst_dir"
 
     echo "Sync completed"
 }
