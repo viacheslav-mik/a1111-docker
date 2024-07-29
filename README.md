@@ -105,7 +105,7 @@ docker run -d \
   -p 8000:8000 \
   -p 8888:8888 \
   -p 2999:2999 \
-  -e VENV_PATH=/workspace/venvs/stable-diffusion-webui \
+  -e VENV_PATH=/workspace/venvs/a1111 \
   ashleykza/a1111:latest
 ```
 
@@ -123,12 +123,12 @@ You can obviously substitute the image name and tag with your own.
 
 ### Environment Variables
 
-| Variable             | Description                                      | Default                                 |
-|----------------------|--------------------------------------------------|-----------------------------------------|
-| VENV_PATH            | Set the path for the Python venv for the app     | /workspace/venvs/stable-diffusion-webui |
-| JUPYTER_LAB_PASSWORD | Set a password for Jupyter lab                   | not set - no password                   |
-| DISABLE_AUTOLAUNCH   | Disable Web UIs from launching automatically     | (not set)                               |
-| DISABLE_SYNC         | Disable syncing if using a RunPod network volume | (not set)                               |
+| Variable             | Description                                      | Default                |
+|----------------------|--------------------------------------------------|------------------------|
+| VENV_PATH            | Set the path for the Python venv for the app     | /workspace/venvs/a1111 |
+| JUPYTER_LAB_PASSWORD | Set a password for Jupyter lab                   | not set - no password  |
+| DISABLE_AUTOLAUNCH   | Disable Web UIs from launching automatically     | (not set)              |
+| DISABLE_SYNC         | Disable syncing if using a RunPod network volume | (not set)              |
 
 ## Logs
 
