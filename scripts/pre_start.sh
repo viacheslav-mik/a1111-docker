@@ -2,16 +2,38 @@
 
 export PYTHONUNBUFFERED=1
 export APP="stable-diffusion-webui"
-DOCKER_IMAGE_VERSION_FILE="/workspace/${APP}/docker_image_version"
 
+TEMPLATE_NAME="a1111"
+TEMPLATE_VERSION_FILE="/workspace/${APP}/template.json"
+
+echo "Template name: ${TEMPLATE_NAME}"
 echo "Template version: ${TEMPLATE_VERSION}"
 echo "venv: ${VENV_PATH}"
 
-if [[ -e ${DOCKER_IMAGE_VERSION_FILE} ]]; then
-    EXISTING_VERSION=$(cat ${DOCKER_IMAGE_VERSION_FILE})
+if [[ -e ${TEMPLATE_VERSION_FILE} ]]; then
+    EXISTING_TEMPLATE_NAME=$(jq -r '.template_name // empty' "$TEMPLATE_VERSION_FILE")
+
+    if [[ -n "${EXISTING_TEMPLATE_NAME}" ]]; then
+        if [[ "${EXISTING_TEMPLATE_NAME}" != "${TEMPLATE_NAME}" ]]; then
+            EXISTING_VERSION="0.0.0"
+        else
+            EXISTING_VERSION=$(jq -r '.template_version // empty' "$TEMPLATE_VERSION_FILE")
+        fi
+    else
+        EXISTING_VERSION="0.0.0"
+    fi
 else
     EXISTING_VERSION="0.0.0"
 fi
+
+save_template_json() {
+    cat << EOF > ${TEMPLATE_VERSION_FILE}
+{
+    "template_name": "${TEMPLATE_NAME}",
+    "template_version": "${TEMPLATE_VERSION}"
+}
+EOF
+}
 
 sync_directory() {
     local src_dir="$1"
@@ -48,7 +70,7 @@ sync_apps() {
         echo "Syncing ${APP} to workspace, please wait..."
         sync_directory "/${APP}" "/workspace/${APP}"
 
-        echo "${TEMPLATE_VERSION}" > ${DOCKER_IMAGE_VERSION_FILE}
+        save_template_json
         echo "${VENV_PATH}" > "/workspace/${APP}/venv_path"
     fi
 }
