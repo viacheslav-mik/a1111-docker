@@ -13,38 +13,22 @@ else
     EXISTING_VERSION="0.0.0"
 fi
 
-sync_with_progress() {
-    local default_job_count=3
+sync_directory() {
     local src_dir="$1"
     local dst_dir="$2"
-    local num_jobs=${3:-${default_job_count}}  # Default to number of CPU cores if not specified
 
-    # Function to process a single file
-    process_file() {
-        local file="$1"
-        local rel_path="${file#$src_dir/}"
-        local dst_file="$dst_dir/$rel_path"
-        local dst_dir_path=$(dirname "$dst_file")
+    echo "Syncing from $src_dir to $dst_dir"
 
-        mkdir -p "$dst_dir_path"
+    # Ensure destination directory exists
+    mkdir -p "$dst_dir"
 
-        if [ ! -f "$dst_file" ] || [ "$file" -nt "$dst_file" ]; then
-            cp "$file" "$dst_file"
-            echo "Copied: $rel_path"
-        else
-            echo "Skipped (not newer): $rel_path"
-        fi
-    }
+    # Get total size of source directory
+    local total_size=$(du -sb "$src_dir" | cut -f1)
 
-    export -f process_file
+    # Use tar with pv to show progress
+    tar -cf - -C "$src_dir" . | pv -s $total_size | tar -xf - -C "$dst_dir"
 
-    # Count total number of files for progress bar
-    local total_files=$(find "$src_dir" -type f | wc -l)
-
-    # Use find to get all files, pipe to parallel, and show progress
-    find "$src_dir" -type f -print0 | \
-    parallel -0 -j"$num_jobs" --bar --eta process_file {} ::: "$src_dir" | \
-    pv -l -s "$total_files" > /dev/null
+    echo "Sync completed"
 }
 
 sync_apps() {
@@ -52,12 +36,11 @@ sync_apps() {
     if [ -z "${DISABLE_SYNC}" ]; then
         # Sync main venv to workspace to support Network volumes
         echo "Syncing main venv to workspace, please wait..."
-        mkdir -p ${VENV_PATH}
-        sync_with_progress /venv/ ${VENV_PATH}/
+        sync_directory "/venv" "${VENV_PATH}"
 
         # Sync application to workspace to support Network volumes
         echo "Syncing ${APP} to workspace, please wait..."
-        sync_with_progress /${APP}/ /workspace/${APP}/
+        sync_directory "/${APP}" "/workspace/${APP}"
 
         echo "${TEMPLATE_VERSION}" > ${DOCKER_IMAGE_VERSION_FILE}
         echo "${VENV_PATH}" > "/workspace/${APP}/venv_path"
