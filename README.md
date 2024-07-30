@@ -24,7 +24,6 @@
   https://github.com/Bing-su/adetailer) v24.6.0
 * [ReActor extension](https://github.com/Gourieff/sd-webui-reactor)
 * [Deforum extension](https://github.com/deforum-art/sd-webui-deforum)
-* [Inpaint Anything extension](https://github.com/Uminosachi/sd-webui-inpaint-anything)
 * [Infinite Image Browsing extension](https://github.com/zanllp/sd-webui-infinite-image-browsing)
 * [CivitAI extension](https://github.com/civitai/sd_civitai_extension)
 * [CivitAI Browser+ extension](https://github.com/BlafKing/sd-civitai-browser-plus)

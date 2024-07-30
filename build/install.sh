@@ -26,18 +26,14 @@ git clone --depth=1 https://github.com/deforum-art/sd-webui-deforum.git extensio
 git clone --depth=1 https://github.com/ashleykleynhans/a1111-sd-webui-locon.git extensions/a1111-sd-webui-locon
 git clone --depth=1 https://github.com/Gourieff/sd-webui-reactor.git extensions/sd-webui-reactor
 git clone --depth=1 https://github.com/zanllp/sd-webui-infinite-image-browsing.git extensions/infinite-image-browsing
-git clone --depth=1 https://github.com/Uminosachi/sd-webui-inpaint-anything.git extensions/inpaint-anything
 git clone --depth=1 https://github.com/Bing-su/adetailer.git extensions/adetailer
 git clone --depth=1 https://github.com/civitai/sd_civitai_extension.git extensions/sd_civitai_extension
 git clone https://github.com/BlafKing/sd-civitai-browser-plus.git extensions/sd-civitai-browser-plus
 git clone https://github.com/NVIDIA/Stable-Diffusion-WebUI-TensorRT.git extensions/Stable-Diffusion-WebUI-TensorRT
 git clone --depth=1 https://github.com/mcmonkeyprojects/sd-dynamic-thresholding extensions/sd-dynamic-thresholding
 
-# Install dependencies for Deforum, ControlNet, ReActor, Infinite Image Browsing,
-# After Detailer, and CivitAI Browser+ extensions
-#pip3 install basicsr
-cd /stable-diffusion-webui/extensions/sd-webui-controlnet
-pip3 install -r requirements.txt
+# Install dependencies for Deforum, ReActor, Infinite Image Browsing,
+# After Detailer, CivitAI Browser+, and Dynamic Thresholding extensions
 cd /stable-diffusion-webui/extensions/deforum
 pip3 install -r requirements.txt
 cd /stable-diffusion-webui/extensions/sd-webui-reactor
@@ -51,9 +47,6 @@ cd /stable-diffusion-webui/extensions/sd_civitai_extension
 pip3 install -r requirements.txt
 cd /stable-diffusion-webui/extensions/sd-dynamic-thresholding
 pip3 install .
-
-# Install dependencies for inpaint anything extension
-pip3 install segment_anything lama_cleaner
 
 # Install dependencies for Civitai Browser+ extension
 cd /stable-diffusion-webui/extensions/sd-civitai-browser-plus
@@ -69,8 +62,12 @@ pip3 uninstall -y nvidia-cudnn-cu11
 pip3 install polygraphy --extra-index-url https://pypi.ngc.nvidia.com
 pip3 install onnx-graphsurgeon --extra-index-url https://pypi.ngc.nvidia.com
 pip3 install optimum
-pip3 install --force-reinstall protobuf==3.20.2
+pip3 install protobuf==3.20.2
 pip3 cache purge
+
+# Install dependencies for ControlNet extension last so other extensions don't interfere with it
+cd /stable-diffusion-webui/extensions/sd-webui-controlnet
+pip3 install -r requirements.txt
 deactivate
 
 # Add inswapper model for the ReActor extension
