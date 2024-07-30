@@ -63,21 +63,10 @@ sync_directory() {
         tar --use-compress-program="pigz -p 4" -xf - -C "$dst_dir"
     elif [ "$workspace_fs" = "overlay" ] || [ "$workspace_fs" = "xfs" ]; then
         echo "Using rsync for sync ($workspace_fs filesystem detected)"
-
-        rsync --remove-source-files -rlptDu --info=progress2 \
-            --exclude='*.pyc' \
-            --exclude='__pycache__' \
-            --exclude='*.log' \
-            "$src_dir/" "$dst_dir/"
+        rsync -rlptDu --info=progress2 --stats "$src_dir/" "$dst_dir/"
     else
-        echo "Unknown filesystem type for /workspace: $workspace_fs"
-        echo "Defaulting to rsync"
-
-        rsync --remove-source-files -rlptDu --info=progress2 \
-            --exclude='*.pyc' \
-            --exclude='__pycache__' \
-            --exclude='*.log' \
-            "$src_dir/" "$dst_dir/"
+        echo "Unknown filesystem type for /workspace: $workspace_fs, defaulting to rsync"
+        rsync -rlptDu --info=progress2 --stats "$src_dir/" "$dst_dir/"
     fi
 
     echo "Sync completed"
