@@ -39,52 +39,49 @@ sync_directory() {
     local src_dir="$1"
     local dst_dir="$2"
 
-    echo "Syncing from $src_dir to $dst_dir"
+    echo "SYNC: Syncing from ${src_dir} to ${dst_dir}, please wait (this can take a few minutes)..."
 
     # Ensure destination directory exists
-    mkdir -p "$dst_dir"
+    mkdir -p "${dst_dir}"
 
     # Check whether /workspace is fuse, overlay, or xfs
     local workspace_fs=$(df -T /workspace | awk 'NR==2 {print $2}')
+    echo "SYNC: File system type: ${workspace_fs}"
 
-    if [ "$workspace_fs" = "fuse" ]; then
-        echo "Using tar and pigz for sync (fuse filesystem detected)"
+    if [ "${workspace_fs}" = "fuse" ]; then
+        echo "SYNC: Using tar and zstd for sync"
 
         # Get total size of source directory
-        local total_size=$(du -sb "$src_dir" | cut -f1)
+        local total_size=$(du -sb "${src_dir}" | cut -f1)
 
-        # Use parallel tar with fast compression and exclusions
-        tar --use-compress-program="pigz -p 4" \
+        # Use parallel tar with zstd compression and exclusions
+        tar --use-compress-program="zstd -T0 -1" \
             --exclude='*.pyc' \
             --exclude='__pycache__' \
             --exclude='*.log' \
-            -cf - -C "$src_dir" . | \
-        pv -s $total_size | \
-        tar --use-compress-program="pigz -p 4" -xf - -C "$dst_dir"
-    elif [ "$workspace_fs" = "overlay" ] || [ "$workspace_fs" = "xfs" ]; then
-        echo "Using rsync for sync ($workspace_fs filesystem detected)"
-        rsync -rlptDu "$src_dir/" "$dst_dir/"
+            -cf - -C "${src_dir}" . | \
+        pv -s ${total_size} | \
+        tar --use-compress-program="zstd -d -T0" -xf - -C "${dst_dir}"
+    elif [ "${workspace_fs}" = "overlay" ] || [ "${workspace_fs}" = "xfs" ]; then
+        echo "SYNC: Using rsync for sync"
+        rsync -rlptDu "${src_dir}/" "${dst_dir}/"
     else
-        echo "Unknown filesystem type for /workspace: $workspace_fs, defaulting to rsync"
-        rsync -rlptDu "$src_dir/" "$dst_dir/"
+        echo "SYNC: Unknown filesystem type (${workspace_fs}) for /workspace, defaulting to rsync"
+        rsync -rlptDu "${src_dir}/" "${dst_dir}/"
     fi
-
-    echo "Sync completed"
 }
 
 sync_apps() {
     # Only sync if the DISABLE_SYNC environment variable is not set
     if [ -z "${DISABLE_SYNC}" ]; then
-        # Sync main venv to workspace to support Network volumes
-        echo "Syncing main venv to workspace, please wait..."
+        echo "SYNC: Syncing to persistent storage started"
+        echo "SYNC: Sync 1 of 2"
         sync_directory "/venv" "${VENV_PATH}"
-
-        # Sync application to workspace to support Network volumes
-        echo "Syncing ${APP} to workspace, please wait..."
+        echo "SYNC: Sync 2 of 2"
         sync_directory "/${APP}" "/workspace/${APP}"
-
         save_template_json
         echo "${VENV_PATH}" > "/workspace/${APP}/venv_path"
+        echo "SYNC: Syncing COMPLETE!"
     fi
 }
 
