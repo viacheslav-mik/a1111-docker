@@ -6,9 +6,9 @@ export APP="stable-diffusion-webui"
 TEMPLATE_NAME="a1111"
 TEMPLATE_VERSION_FILE="/workspace/${APP}/template.json"
 
-echo "Template name: ${TEMPLATE_NAME}"
-echo "Template version: ${TEMPLATE_VERSION}"
-echo "venv: ${VENV_PATH}"
+echo "TEMPLATE NAME: ${TEMPLATE_NAME}"
+echo "TEMPLATE VERSION: ${TEMPLATE_VERSION}"
+echo "VENV PATH: ${VENV_PATH}"
 
 if [[ -e ${TEMPLATE_VERSION_FILE} ]]; then
     EXISTING_TEMPLATE_NAME=$(jq -r '.template_name // empty' "$TEMPLATE_VERSION_FILE")
@@ -75,18 +75,32 @@ sync_apps() {
     # Only sync if the DISABLE_SYNC environment variable is not set
     if [ -z "${DISABLE_SYNC}" ]; then
         echo "SYNC: Syncing to persistent storage started"
+
+        # Start the timer
+        start_time=$(date +%s)
+
         echo "SYNC: Sync 1 of 2"
         sync_directory "/venv" "${VENV_PATH}"
         echo "SYNC: Sync 2 of 2"
         sync_directory "/${APP}" "/workspace/${APP}"
         save_template_json
         echo "${VENV_PATH}" > "/workspace/${APP}/venv_path"
+
+        # End the timer and calculate the duration
+        end_time=$(date +%s)
+        duration=$((end_time - start_time))
+
+        # Convert duration to minutes and seconds
+        minutes=$((duration / 60))
+        seconds=$((duration % 60))
+
         echo "SYNC: Syncing COMPLETE!"
+        printf "SYNC: Time taken: %d minutes, %d seconds\n" ${minutes} ${seconds}
     fi
 }
 
 fix_venvs() {
-    echo "Fixing Stable Diffusion Web UI venv..."
+    echo "VENV: Fixing Stable Diffusion Web UI venv..."
     /fix_venv.sh /venv ${VENV_PATH}
 }
 
@@ -138,5 +152,3 @@ then
 else
     /start_a1111.sh
 fi
-
-echo "All services have been started"
