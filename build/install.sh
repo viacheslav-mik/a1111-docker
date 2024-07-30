@@ -32,8 +32,7 @@ git clone https://github.com/BlafKing/sd-civitai-browser-plus.git extensions/sd-
 git clone https://github.com/NVIDIA/Stable-Diffusion-WebUI-TensorRT.git extensions/Stable-Diffusion-WebUI-TensorRT
 git clone --depth=1 https://github.com/mcmonkeyprojects/sd-dynamic-thresholding extensions/sd-dynamic-thresholding
 
-# Install dependencies for Deforum, ReActor, Infinite Image Browsing,
-# After Detailer, CivitAI Browser+, and Dynamic Thresholding extensions
+# Install dependencies for various extensions
 cd /stable-diffusion-webui/extensions/deforum
 pip3 install -r requirements.txt
 cd /stable-diffusion-webui/extensions/sd-webui-reactor
@@ -63,11 +62,11 @@ pip3 install polygraphy --extra-index-url https://pypi.ngc.nvidia.com
 pip3 install onnx-graphsurgeon --extra-index-url https://pypi.ngc.nvidia.com
 pip3 install optimum
 pip3 install protobuf==3.20.2
-pip3 cache purge
 
 # Install dependencies for ControlNet extension last so other extensions don't interfere with it
 cd /stable-diffusion-webui/extensions/sd-webui-controlnet
 pip3 install -r requirements.txt
+pip3 cache purge
 deactivate
 
 # Add inswapper model for the ReActor extension
