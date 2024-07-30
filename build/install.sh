@@ -26,6 +26,7 @@ git clone --depth=1 https://github.com/deforum-art/sd-webui-deforum.git extensio
 git clone --depth=1 https://github.com/ashleykleynhans/a1111-sd-webui-locon.git extensions/a1111-sd-webui-locon
 git clone --depth=1 https://github.com/Gourieff/sd-webui-reactor.git extensions/sd-webui-reactor
 git clone --depth=1 https://github.com/zanllp/sd-webui-infinite-image-browsing.git extensions/infinite-image-browsing
+git clone --depth=1 https://github.com/Uminosachi/sd-webui-inpaint-anything.git extensions/inpaint-anything
 git clone --depth=1 https://github.com/Bing-su/adetailer.git extensions/adetailer
 git clone --depth=1 https://github.com/civitai/sd_civitai_extension.git extensions/sd_civitai_extension
 git clone https://github.com/BlafKing/sd-civitai-browser-plus.git extensions/sd-civitai-browser-plus
@@ -46,6 +47,8 @@ cd /stable-diffusion-webui/extensions/sd_civitai_extension
 pip3 install -r requirements.txt
 cd /stable-diffusion-webui/extensions/sd-dynamic-thresholding
 pip3 install .
+cd /stable-diffusion-webui/extensions/inpaint-anything
+python3 -m install
 
 # Install dependencies for Civitai Browser+ extension
 cd /stable-diffusion-webui/extensions/sd-civitai-browser-plus
