@@ -31,8 +31,8 @@ RUN /install.sh
 WORKDIR /stable-diffusion-webui
 COPY a1111/cache-sd-model.py ./
 RUN source /venv/bin/activate && \
-    python3 cache-sd-model.py --no-half-vae --no-half --xformers --use-cpu=all --ckpt /sd-models/sd_xl_base_1.0.safetensors && \
-    python3 cache-sd-model.py --no-half-vae --no-half --xformers --use-cpu=all --ckpt /sd-models/sd_xl_refiner_1.0.safetensors && \
+    python3 cache-sd-model.py --skip-install --xformers --use-cpu=all --ckpt /sd-models/sd_xl_base_1.0.safetensors && \
+    python3 cache-sd-model.py --skip-install --xformers --use-cpu=all --ckpt /sd-models/sd_xl_refiner_1.0.safetensors && \
     deactivate
 
 # Install Application Manager
