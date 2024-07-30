@@ -3,6 +3,8 @@
 # Uncomment and change the variables below to your need:#
 #########################################################
 
+export HF_HOME="/workspace"
+
 # Install directory without trailing slash
 install_dir="/workspace"
 
