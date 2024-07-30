@@ -44,7 +44,7 @@ sync_directory() {
     # Ensure destination directory exists
     mkdir -p "$dst_dir"
 
-    # Check if /workspace is fuse or overlay
+    # Check whether /workspace is fuse, overlay, or xfs
     local workspace_fs=$(df -T /workspace | awk 'NR==2 {print $2}')
 
     if [ "$workspace_fs" = "fuse" ]; then
@@ -61,8 +61,8 @@ sync_directory() {
             -cf - -C "$src_dir" . | \
         pv -s $total_size | \
         tar --use-compress-program="pigz -p 4" -xf - -C "$dst_dir"
-    elif [ "$workspace_fs" = "overlay" ]; then
-        echo "Using rsync for sync (overlay filesystem detected)"
+    elif [ "$workspace_fs" = "overlay" ] || [ "$workspace_fs" = "xfs" ]; then
+        echo "Using rsync for sync ($workspace_fs filesystem detected)"
 
         rsync --remove-source-files -rlptDu --info=progress2 \
             --exclude='*.pyc' \
