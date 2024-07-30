@@ -35,11 +35,6 @@ RUN source /venv/bin/activate && \
     python3 cache-sd-model.py --no-half-vae --no-half --xformers --use-cpu=all --ckpt /sd-models/sd_xl_refiner_1.0.safetensors && \
     deactivate
 
-# Fix protobuf
-RUN source /venv/bin/activate && \
-    pip3 install --force-reinstall protobuf==3.20.2 && \
-    deactivate
-
 # Install Application Manager
 WORKDIR /
 ARG APP_MANAGER_VERSION
