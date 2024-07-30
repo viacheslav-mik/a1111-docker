@@ -69,7 +69,7 @@ pip3 uninstall -y nvidia-cudnn-cu11
 pip3 install polygraphy --extra-index-url https://pypi.ngc.nvidia.com
 pip3 install onnx-graphsurgeon --extra-index-url https://pypi.ngc.nvidia.com
 pip3 install optimum
-pip3 install protobuf==3.20.0
+pip3 install --force-reinstall protobuf==3.20.2
 pip3 cache purge
 deactivate
 
