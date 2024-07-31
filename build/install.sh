@@ -68,11 +68,8 @@ pip3 install optimum
 # Install dependencies for ControlNet extension last so other extensions don't interfere with it
 cd /stable-diffusion-webui/extensions/sd-webui-controlnet
 pip3 install -r requirements.txt
-
-# Install newer version of transformers so that SD3 model can be loaded
-pip3 install transformers==4.42.4
+pip3 install protobuf==3.20.0
 pip3 cache purge
-
 deactivate
 
 # Add inswapper model for the ReActor extension
