@@ -38,6 +38,7 @@ EOF
 sync_directory() {
     local src_dir="$1"
     local dst_dir="$2"
+    local use_compression=${3:-false}
 
     echo "SYNC: Syncing from ${src_dir} to ${dst_dir}, please wait (this can take a few minutes)..."
 
@@ -49,19 +50,41 @@ sync_directory() {
     echo "SYNC: File system type: ${workspace_fs}"
 
     if [ "${workspace_fs}" = "fuse" ]; then
-        echo "SYNC: Using tar and zstd for sync"
+        if [ "$use_compression" = true ]; then
+            echo "SYNC: Using tar with zstd compression for sync"
+        else
+            echo "SYNC: Using tar without compression for sync"
+        fi
 
         # Get total size of source directory
         local total_size=$(du -sb "${src_dir}" | cut -f1)
 
-        # Use parallel tar with zstd compression and exclusions
-        tar --use-compress-program="zstd -T0 -1" \
+        # Base tar command with optimizations
+        local tar_cmd="tar --create \
+            --file=- \
+            --directory="${src_dir}" \
             --exclude='*.pyc' \
             --exclude='__pycache__' \
             --exclude='*.log' \
-            -cf - -C "${src_dir}" . | \
-        pv -s ${total_size} | \
-        tar --use-compress-program="zstd -d -T0" -xf - -C "${dst_dir}"
+            --blocking-factor=64 \
+            --record-size=64K \
+            --sparse \
+            ."
+
+        # Base tar extract command
+        local tar_extract_cmd="tar --extract \
+            --file=- \
+            --directory="${dst_dir}" \
+            --blocking-factor=64 \
+            --record-size=64K \
+            --sparse"
+
+        if [ "$use_compression" = true ]; then
+            $tar_cmd | zstd -T0 -1 | pv -s ${total_size} | zstd -d -T0 | $tar_extract_cmd
+        else
+            $tar_cmd | pv -s ${total_size} | $tar_extract_cmd
+        fi
+
     elif [ "${workspace_fs}" = "overlay" ] || [ "${workspace_fs}" = "xfs" ]; then
         echo "SYNC: Using rsync for sync"
         rsync -rlptDu "${src_dir}/" "${dst_dir}/"
