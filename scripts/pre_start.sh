@@ -38,9 +38,10 @@ EOF
 sync_directory() {
     local src_dir="$1"
     local dst_dir="$2"
-    local use_compression=${3:-false}
+    local num_parallel_jobs=4
+    local size_threshold=10485760  # 10M in bytes
 
-    echo "SYNC: Syncing from ${src_dir} to ${dst_dir}, please wait (this can take a few minutes)..."
+    echo "SYNC: Syncing from ${src_dir} to ${dst_dir}, please wait..."
 
     # Ensure destination directory exists
     mkdir -p "${dst_dir}"
@@ -50,40 +51,39 @@ sync_directory() {
     echo "SYNC: File system type: ${workspace_fs}"
 
     if [ "${workspace_fs}" = "fuse" ]; then
-        if [ "$use_compression" = true ]; then
-            echo "SYNC: Using tar with zstd compression for sync"
-        else
-            echo "SYNC: Using tar without compression for sync"
-        fi
+        echo "SYNC: Using optimized multi-process sync for FUSE filesystem"
 
-        # Get total size of source directory
-        local total_size=$(du -sb "${src_dir}" | cut -f1)
+        # Function to sync large files using dd
+        sync_large_files() {
+            find "$src_dir" -type f -printf '%s %P\0' |
+            awk -v threshold="$size_threshold" -v RS='\0' -F' ' '$1 >= threshold {print $2}' |
+            xargs -0 -P $num_parallel_jobs -I {} \
+                sh -c 'dd if="$1/{}" of="$2/{}" bs=1M' "$src_dir" "$dst_dir"
+        }
 
-        # Base tar command with optimizations
-        local tar_cmd="tar --create \
-            --file=- \
-            --directory="${src_dir}" \
-            --exclude='*.pyc' \
-            --exclude='__pycache__' \
-            --exclude='*.log' \
-            --blocking-factor=64 \
-            --record-size=64K \
-            --sparse \
-            ."
+        # Function to sync small files using cpio
+        sync_small_files() {
+            find "$src_dir" -type f -printf '%s %P\0' |
+            awk -v threshold="$size_threshold" -v RS='\0' -F' ' '$1 < threshold {print $2}' |
+            cpio -0pdm "$dst_dir"
+        }
 
-        # Base tar extract command
-        local tar_extract_cmd="tar --extract \
-            --file=- \
-            --directory="${dst_dir}" \
-            --blocking-factor=64 \
-            --record-size=64K \
-            --sparse"
+        # Function to sync directory structure
+        sync_dir_structure() {
+            find "$src_dir" -type d -print0 |
+            cpio -0pdm "$dst_dir"
+        }
 
-        if [ "$use_compression" = true ]; then
-            $tar_cmd | zstd -T0 -1 | pv -s ${total_size} | zstd -d -T0 | $tar_extract_cmd
-        else
-            $tar_cmd | pv -s ${total_size} | $tar_extract_cmd
-        fi
+        # Sync directory structure
+        sync_dir_structure
+
+        # Sync large and small files in parallel
+        sync_large_files &
+        sync_small_files &
+        wait
+
+        # Update file attributes
+        find "$src_dir" -print0 | xargs -0 -P $num_parallel_jobs touch --reference="$src_dir/{}" "$dst_dir/{}"
 
     elif [ "${workspace_fs}" = "overlay" ] || [ "${workspace_fs}" = "xfs" ]; then
         echo "SYNC: Using rsync for sync"
