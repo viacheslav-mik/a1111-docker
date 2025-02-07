@@ -21,7 +21,7 @@ export COMMANDLINE_ARGS="--port 3001 --listen --api --xformers --skip-install --
 #export GIT="git"
 
 # python3 venv without trailing slash (defaults to ${install_dir}/${clone_dir}/venv)
-venv_dir=VENV_PATH
+venv_dir=/workspace/stable-diffusion-webui/venv
 
 # script to launch to start the app
 #export LAUNCH_SCRIPT="launch.py"
