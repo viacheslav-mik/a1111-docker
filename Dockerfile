@@ -9,15 +9,42 @@ WORKDIR /
 COPY --chmod=755 build/* ./
 
 # Install A1111
-RUN /install_a1111.sh
+ARG WEBUI_VERSION
+ARG WEBUI_TORCH_VERSION
+ARG WEBUI_XFORMERS_VERSION
+ARG WEBUI_INDEX_URL
+WORKDIR /workspace
+RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git && \
+    cd stable-diffusion-webui && \
+    checkout tags/${WEBUI_VERSION}
+RUN python3 -m venv --system-site-packages /workspace/stable-diffusion-webui/venv && \
+    source /workspace/stable-diffusion-webui/venv/bin/activate
+RUN pip3 install --no-cache-dir torch==${WEBUI_TORCH_VERSION} torchvision torchaudio --index-url ${WEBUI_INDEX_URL}
+RUN pip3 install --no-cache-dir xformers==${WEBUI_XFORMERS_VERSION} --index-url ${WEBUI_INDEX_URL}
+RUN pip3 install -r requirements_versions.txt
+RUN python3 -c "from launch import prepare_environment; prepare_environment()" --skip-torch-cuda-test
 
 # Install Kohya_ss
 ARG KOHYA_VERSION
-RUN git clone https://github.com/bmaltais/kohya_ss.git /kohya_ss && \
-    cd /kohya_ss && \
+ARG KOHYA_TORCH_VERSION
+ARG KOHYA_XFORMERS_VERSION
+ARG KOHYA_INDEX_URL
+RUN git clone https://github.com/bmaltais/kohya_ss.git /workspace/kohya_ss && \
+    cd /workspace/kohya_ss && \
     git checkout ${KOHYA_VERSION} && \
     git submodule update --init --recursive
+WORKDIR /kohya_ss
 COPY kohya_ss/* /kohya_ss
+RUN python3 -m venv --system-site-packages /workspace/kohya_ss/venv && \
+    source /workspace/kohya_ss/venv/bin/activate && \
+    pip3 install torch==${KOHYA_TORCH_VERSION} torchvision torchaudio --index-url ${KOHYA_INDEX_URL} && \
+    pip3 install xformers==${KOHYA_XFORMERS_VERSION} --index-url ${KOHYA_INDEX_URL} && \
+    pip3 install bitsandbytes==0.43.0 \
+        tensorboard==2.15.2 tensorflow==2.15.0.post1 \
+        wheel packaging tensorrt && \
+    pip3 install tensorflow[and-cuda] && \
+    pip3 install -r requirements.txt && \
+    deactivate
 
 # Install Application Manager
 WORKDIR /
