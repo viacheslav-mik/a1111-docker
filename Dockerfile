@@ -33,8 +33,8 @@ RUN git clone https://github.com/bmaltais/kohya_ss.git /workspace/kohya_ss && \
     cd /workspace/kohya_ss && \
     git checkout ${KOHYA_VERSION} && \
     git submodule update --init --recursive
-WORKDIR /kohya_ss
-COPY kohya_ss/* /kohya_ss
+COPY kohya_ss/* /workspace/kohya_ss
+WORKDIR /workspace/kohya_ss
 RUN python3 -m venv --system-site-packages /workspace/kohya_ss/venv && \
     source /workspace/kohya_ss/venv/bin/activate
 RUN pip3 install torch==${KOHYA_TORCH_VERSION} torchvision torchaudio --index-url ${KOHYA_INDEX_URL} && \
@@ -43,7 +43,6 @@ RUN pip3 install torch==${KOHYA_TORCH_VERSION} torchvision torchaudio --index-ur
         tensorboard==2.15.2 tensorflow==2.15.0.post1 \
         wheel packaging tensorrt && \
     pip3 install tensorflow[and-cuda]
-RUN git submodule update --init --recursive
 RUN pip3 install -r requirements.txt && \
     deactivate
 
