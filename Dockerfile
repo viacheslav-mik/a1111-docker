@@ -14,9 +14,9 @@ ARG WEBUI_TORCH_VERSION
 ARG WEBUI_XFORMERS_VERSION
 ARG WEBUI_INDEX_URL
 WORKDIR /workspace
-RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git && \
-    cd stable-diffusion-webui && \
-    git checkout tags/${WEBUI_VERSION}
+RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git
+WORKDIR /workspace/stable-diffusion-webui
+RUN git checkout tags/${WEBUI_VERSION}
 RUN python3 -m venv --system-site-packages /workspace/stable-diffusion-webui/venv && \
     source /workspace/stable-diffusion-webui/venv/bin/activate
 RUN pip3 install --no-cache-dir torch==${WEBUI_TORCH_VERSION} torchvision torchaudio --index-url ${WEBUI_INDEX_URL}
