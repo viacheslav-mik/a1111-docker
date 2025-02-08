@@ -43,6 +43,7 @@ RUN pip3 install torch==${KOHYA_TORCH_VERSION} torchvision torchaudio --index-ur
         tensorboard==2.15.2 tensorflow==2.15.0.post1 \
         wheel packaging tensorrt && \
     pip3 install tensorflow[and-cuda]
+RUN git submodule update --init --recursive
 RUN pip3 install -r requirements.txt && \
     deactivate
 
