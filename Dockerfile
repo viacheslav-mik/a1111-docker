@@ -44,7 +44,7 @@ RUN pip3 install torch==${KOHYA_TORCH_VERSION} torchvision torchaudio --index-ur
         wheel packaging tensorrt && \
     pip3 install tensorflow[and-cuda]
 RUN pip3 install -r requirements.txt && \
-    deactivate
+    source deactivate
 
 # Install Application Manager
 WORKDIR /
