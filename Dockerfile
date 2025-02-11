@@ -43,8 +43,7 @@ RUN python3 -m venv --system-site-packages /workspace/kohya_ss/venv && \
         tensorboard==2.15.2 tensorflow==2.15.0.post1 \
         wheel packaging tensorrt && \
     pip3 install tensorflow[and-cuda] && \
-    pip3 install -r requirements.txt && \
-    source deactivate
+    pip3 install -r requirements.txt
 
 # Install Application Manager
 WORKDIR /
